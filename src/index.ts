@@ -1,5 +1,6 @@
 import JSSolver from './js-solver'
 import FluidRenderer from './renderer'
+import * as StatsJS from 'stats.js'
 
 const canvas = <HTMLCanvasElement>document.querySelector('#fluidCanvas')
 if (!canvas) {
@@ -13,7 +14,7 @@ function updateCanvasDimensions() {
 
 ;(window.onresize = updateCanvasDimensions)()
 
-const width = 140
+const width = 120
 const height = 100
 
 const solver = new JSSolver(width, height)
@@ -46,11 +47,18 @@ canvas.onmousemove = e => {
 		}
 	}
 }
+
+const stats = new StatsJS();
+stats.showPanel(0)
+document.body.appendChild(stats.dom)
+
 let lastFrame = 0
 ;(function renderLoop(time: number) {
 	const dt = (time - lastFrame) * 0.001
+	stats.begin()
 	renderer.render(dt)
 	solver.decay(-.1 * dt)
+	stats.end()
 	requestAnimationFrame(renderLoop)
 	lastFrame = time
 })(0)

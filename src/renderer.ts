@@ -1,6 +1,6 @@
 import FluidSolver from './solver'
 
-const ygradient = [
+const zgradient = [
 	[0,0,0],
 	[0,0,255],
 	[255,0,0],
@@ -16,19 +16,19 @@ const gradient = [
 	[0,0,0],
 ]
 
-const zgradient = [
+const vgradient = [
 	[255,255,255],
 	[255,0,255],
 ]
 
 const factor = gradient.length -1
 
-type FluidSimulationOptions = {
+type FluidRendererOptions = {
 	canvas: HTMLCanvasElement,
 	solver: FluidSolver,
 }
 
-export default class FluidRenderer{
+export default class FluidRenderer {
 
 	private solver: FluidSolver
 	private buffer: ImageData
@@ -36,7 +36,7 @@ export default class FluidRenderer{
 	private outputCtx: CanvasRenderingContext2D
 	private outputCanvas: HTMLCanvasElement
 
-	init(options: FluidSimulationOptions) {
+	init(options: FluidRendererOptions) {
 		const { solver, canvas } = options
 		this.solver = solver
 		const bufferCanvas = document.createElement('canvas')
