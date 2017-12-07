@@ -2,7 +2,7 @@ import FluidSolver from './solver'
 
 const zgradient = [
 	[0,0,0],
-	[0,0,255],
+	[155,0,155],
 	[255,0,0],
 	[255,255,0],
 	[255,255,255],

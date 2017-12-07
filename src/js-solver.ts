@@ -1,11 +1,13 @@
-import Solver from './solver'
 /**
  * Real-Time Fluid Dynamics for Games
  * Jon Stam
  * http://www.dgp.toronto.edu/people/stam/reality/index.html
  *
- * Implementation in JS by Jakob Mulvad Nielsen
+ * Implementation in Ecmascript by Jakob Mulvad Nielsen <mulvad@gmail.com>
  */
+
+import Solver from './solver'
+
 export default class JSSolver implements Solver {
 	public width: number
 	public height: number
@@ -58,8 +60,9 @@ export default class JSSolver implements Solver {
 
 	decay(decay: number) {
 		const dest = this.density0
+		const length = dest.length
 		for (let i = 0; i < length; i++) {
-			dest[i] = Math.max(0, dest[i] + decay)
+			dest[i] = Math.max(0, dest[i] - decay)
 		}
 	}
 

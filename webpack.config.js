@@ -1,3 +1,4 @@
+const path = require('path')
 const webpack = require('webpack')
 
 module.exports = {
@@ -8,14 +9,28 @@ module.exports = {
 		path: __dirname + '/static',
 	},
 	module: {
-		rules: [{
-			test: /\.ts$/,
+		rules: [
+		{
+			test: /\.rs$/,
 			exclude: /node_modules/,
-			loader: 'ts-loader'
-		}]
+			use: [
+				{ loader: 'rust-wasm-loader', options: { path: './' } },
+			]
+		},
+		{
+			test: /\.ts(x?)$/,
+			exclude: /node_modules/,
+			use: [
+				{ loader: 'ts-loader' },
+			]
+		}],
 	},
 	resolve: {
-		extensions: ['.ts', '.js']
+		extensions: ['.ts', '.js', '.rs'],
+	},
+	externals: {
+		'fs': true,
+		'path': true,
 	},
 	//plugins: [new webpack.optimize.UglifyJsPlugin()],
 }

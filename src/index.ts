@@ -1,11 +1,23 @@
 import JSSolver from './js-solver'
+import WASMSolver from './wasm-solver.js'
 import FluidRenderer from './renderer'
 import * as StatsJS from 'stats.js'
+
+console.log(WASMSolver)
 
 const canvas = <HTMLCanvasElement>document.querySelector('#fluidCanvas')
 if (!canvas) {
 	throw new Error('Could not find canvas element')
 }
+
+const width = 120
+const height = 100
+const solver = new JSSolver(width, height)
+const renderer = new FluidRenderer()
+renderer.init({
+	canvas,
+	solver,
+})
 
 function updateCanvasDimensions() {
 	canvas.width = canvas.clientWidth
@@ -13,17 +25,6 @@ function updateCanvasDimensions() {
 }
 
 ;(window.onresize = updateCanvasDimensions)()
-
-const width = 120
-const height = 100
-
-const solver = new JSSolver(width, height)
-
-const renderer = new FluidRenderer()
-renderer.init({
-	canvas,
-	solver,
-})
 
 canvas.onmousemove = e => {
 	if (e.buttons !== 0 || true) {
@@ -48,7 +49,7 @@ canvas.onmousemove = e => {
 	}
 }
 
-const stats = new StatsJS();
+const stats = new StatsJS()
 stats.showPanel(0)
 document.body.appendChild(stats.dom)
 
@@ -57,7 +58,7 @@ let lastFrame = 0
 	const dt = (time - lastFrame) * 0.001
 	stats.begin()
 	renderer.render(dt)
-	solver.decay(-.1 * dt)
+	solver.decay(dt * 0.1)
 	stats.end()
 	requestAnimationFrame(renderLoop)
 	lastFrame = time

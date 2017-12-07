@@ -1,17 +1,23 @@
 {
-  "name": "fluids",
+  "name": "fluid-simulation",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack && node serve"
+    "serve": "webpack && http-server static",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ts-loader": "^2.3.7",
-    "typescript": "^2.5.3",
-    "webpack": "^3.6.0"
+    "rust-wasm-loader": "^0.1.2",
+    "stats.js": "^0.17.0",
+    "ts-loader": "^3.2.0",
+    "typescript": "^2.6.2",
+    "webpack": "^3.10.0"
+  },
+  "devDependencies": {
+    "http-server": "^0.10.0"
   }
 }
