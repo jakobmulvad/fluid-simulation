@@ -4,14 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "webpack && http-server static",
-    "build": "webpack"
+    "start": "npm run compile && webpack && http-server static",
+    "compile": "emcc src/wasm-solver-module.c -o static/wasm-solver-module.js -O3 -s WASM=1 -s NO_EXIT_RUNTIME=1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "rust-wasm-loader": "^0.1.2",
     "stats.js": "^0.17.0",
     "ts-loader": "^3.2.0",
     "typescript": "^2.6.2",

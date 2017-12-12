@@ -11,13 +11,6 @@ module.exports = {
 	module: {
 		rules: [
 		{
-			test: /\.rs$/,
-			exclude: /node_modules/,
-			use: [
-				{ loader: 'rust-wasm-loader', options: { path: './' } },
-			]
-		},
-		{
 			test: /\.ts(x?)$/,
 			exclude: /node_modules/,
 			use: [
@@ -26,11 +19,7 @@ module.exports = {
 		}],
 	},
 	resolve: {
-		extensions: ['.ts', '.js', '.rs'],
-	},
-	externals: {
-		'fs': true,
-		'path': true,
+		extensions: ['.ts', '.js'],
 	},
 	//plugins: [new webpack.optimize.UglifyJsPlugin()],
 }

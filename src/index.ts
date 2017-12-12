@@ -1,5 +1,5 @@
 import JSSolver from './js-solver'
-import WASMSolver from './wasm-solver.js'
+import WASMSolver from './wasm-solver'
 import FluidRenderer from './renderer'
 import * as StatsJS from 'stats.js'
 
@@ -14,10 +14,7 @@ const width = 120
 const height = 100
 const solver = new JSSolver(width, height)
 const renderer = new FluidRenderer()
-renderer.init({
-	canvas,
-	solver,
-})
+renderer.init(width, height, canvas)
 
 function updateCanvasDimensions() {
 	canvas.width = canvas.clientWidth
@@ -43,7 +40,7 @@ canvas.onmousemove = e => {
 				const dy = cellY - y
 				const ds = Math.max(1 - (dx * dx + dy * dy) / (radius * radius), 0)
 
-				solver.setCellState(x, y, ds * 0.05, e.movementX * ds * 0.02, e.movementY * ds * 0.02)
+				solver.setCellState(x, y, ds * 0.05, e.movementX * ds * 0.01, e.movementY * ds * 0.01)
 			}
 		}
 	}
@@ -57,7 +54,8 @@ let lastFrame = 0
 ;(function renderLoop(time: number) {
 	const dt = (time - lastFrame) * 0.001
 	stats.begin()
-	renderer.render(dt)
+	solver.step(dt)
+	renderer.render(solver)
 	solver.decay(dt * 0.1)
 	stats.end()
 	requestAnimationFrame(renderLoop)

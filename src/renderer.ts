@@ -23,36 +23,27 @@ const vgradient = [
 
 const factor = gradient.length -1
 
-type FluidRendererOptions = {
-	canvas: HTMLCanvasElement,
-	solver: FluidSolver,
-}
-
 export default class FluidRenderer {
-
-	private solver: FluidSolver
 	private buffer: ImageData
 	private bufferCtx: CanvasRenderingContext2D
 	private outputCtx: CanvasRenderingContext2D
 	private outputCanvas: HTMLCanvasElement
 
-	init(options: FluidRendererOptions) {
-		const { solver, canvas } = options
-		this.solver = solver
+	init(width: number, height: number, canvas: HTMLCanvasElement) {
 		const bufferCanvas = document.createElement('canvas')
 		if (!bufferCanvas) {
 			throw new Error('Could not create offscreen canvas')
 		}
-		bufferCanvas.width = solver.width
-		bufferCanvas.height = solver.height
+		bufferCanvas.width = width
+		bufferCanvas.height = height
 		const bufferCtx = bufferCanvas.getContext('2d')
 		if (!bufferCtx) {
 			throw new Error('Could not create 2d context for offscreen canvas')
 		}
 		this.bufferCtx = bufferCtx
-		this.buffer = this.bufferCtx.createImageData(solver.width, solver.height)
+		this.buffer = this.bufferCtx.createImageData(width, height)
 
-		this.outputCanvas = options.canvas
+		this.outputCanvas = canvas
 		const outputCtx = this.outputCanvas.getContext('2d')
 		if (!outputCtx) {
 			throw new Error('Could not create 2d context for onscreen canvas')
@@ -60,12 +51,9 @@ export default class FluidRenderer {
 		this.outputCtx = outputCtx
 	}
 
-	render(dt: number) {
-		// Move solver forward in time
-		this.solver.step(dt)
-
+	render(solver: FluidSolver) {
 		// Copy data from density field in solver to offscreen buffer image
-		const densityField = this.solver.getDensity()
+		const densityField = solver.getDensity()
 		const bufferData = this.buffer.data
 		const length = densityField.length
 		let dataOffset = 0

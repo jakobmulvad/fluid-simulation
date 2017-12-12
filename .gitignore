@@ -1,6 +1,5 @@
 node_modules
 .DS_Store
 .vscode
-static/bundle.js
-Cargo.lock
-target
+static/*.js
+static/*.wasm
